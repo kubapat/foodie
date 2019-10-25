@@ -69,6 +69,9 @@
                                     <div id="map" style="width:100%; height:300px;"></div><br>
                                     <input type="hidden" id="location" name="location" value="52.84254657285949, 18.714219774433218"/>
                                 </div>
+                                <div class="form-group">
+                                    <div class="g-recaptcha" data-sitekey="RECAPTCHAPUBLICKEY"></div>
+                                </div>
 
                                 <div class="login-checkbox">
                                     <label>
