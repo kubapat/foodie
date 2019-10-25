@@ -17,6 +17,24 @@
     $loc    = addslashes($_POST['location']);
     $pass   = hash("sha256",$_POST['password'],false);
     $repeat = hash("sha256",$_POST['repeat'],false);
+   
+    if(!isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
+      $_SESSION['error']    = Langs::translations[$_SESSION['lang']]["errors"]["badRequest"];
+      $_SESSION['errcolor'] = 'error';
+      header('Location: register.php');
+      return;
+    }
+
+    $secret = "SOMEVALUE";
+    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+    $responseData = json_decode($verifyResponse);
+
+    if(!$responseData->success) {
+      $_SESSION['error']    = Langs::translations[$_SESSION['lang']]["errors"]["badRequest"];
+      $_SESSION['errcolor'] = 'error';
+      header('Location: register.php');
+      return;
+    }
 
     if(!strlen($name) || strlen($name)>100) { //Incorrect name
        $_SESSION['error']    = Langs::translations[$_SESSION['lang']]["errors"]["invalidName"];
